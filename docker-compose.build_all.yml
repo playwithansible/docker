@@ -78,6 +78,6 @@ services:
       context: ubuntu
       args:
         version: "20.04"
-    image: playwithansible/ubuntu20.04.10:${PWA_VERSION}
+    image: playwithansible/ubuntu20.04:${PWA_VERSION}
     ports:
         - "22"
