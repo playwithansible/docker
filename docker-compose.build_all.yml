@@ -1,0 +1,83 @@
+version: '3'
+services:
+
+  centos7:
+    build:
+      context: centos
+      args:
+        version: "7"
+    image: playwithansible/centos7:${PWA_VERSION}
+    ports:
+      - "22"
+
+  centos8:
+    build:
+      context: centos
+      args:
+        version: "8"
+    image: playwithansible/centos8:${PWA_VERSION}
+    ports:
+      - "22"
+
+  debian9:
+    build:
+      context: debian
+      args:
+        version: "9"
+    image: playwithansible/debian9:${PWA_VERSION}
+    ports:
+      - "22"
+
+  debian10:
+    build:
+      context: debian
+      args:
+        version: "10"
+    image: playwithansible/debian10:${PWA_VERSION}
+    ports:
+      - "22"
+  
+  fedora30:
+    build:
+      context: fedora
+      args:
+        version: "30"
+    image: playwithansible/fedora30:${PWA_VERSION}
+    ports:
+      - "22"
+
+  fedora31:
+    build:
+      context: fedora
+      args:
+        version: "31"
+    image: playwithansible/fedora31:${PWA_VERSION}
+    ports:
+      - "22"
+
+  ubuntu1804:
+    build:
+      context: ubuntu
+      args:
+        version: "18.04"
+    image: playwithansible/ubuntu18.04:${PWA_VERSION}
+    ports:
+      - "22"
+
+  ubuntu1910:
+    build:
+      context: ubuntu
+      args:
+        version: "19.10"
+    image: playwithansible/ubuntu19.10:${PWA_VERSION}
+    ports:
+      - "22"
+
+  ubuntu2004:
+    build:
+      context: ubuntu
+      args:
+        version: "20.04"
+    image: playwithansible/ubuntu20.04.10:${PWA_VERSION}
+    ports:
+        - "22"
