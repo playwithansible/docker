@@ -6,7 +6,7 @@ services:
       context: centos
       args:
         version: "7"
-    image: playwithansible/centos7:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/centos7:${PWA_VERSION}
     ports:
       - "22"
 
@@ -15,7 +15,16 @@ services:
       context: centos
       args:
         version: "8"
-    image: playwithansible/centos8:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/centos8:${PWA_VERSION}
+    ports:
+      - "22"
+
+  debian8:
+    build:
+      context: debian
+      args:
+        version: "8"
+    image: ${REGISTRY}/playwithansible/debian8:${PWA_VERSION}
     ports:
       - "22"
 
@@ -24,7 +33,7 @@ services:
       context: debian
       args:
         version: "9"
-    image: playwithansible/debian9:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/debian9:${PWA_VERSION}
     ports:
       - "22"
 
@@ -33,7 +42,7 @@ services:
       context: debian
       args:
         version: "10"
-    image: playwithansible/debian10:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/debian10:${PWA_VERSION}
     ports:
       - "22"
   
@@ -42,7 +51,7 @@ services:
       context: fedora
       args:
         version: "30"
-    image: playwithansible/fedora30:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/fedora30:${PWA_VERSION}
     ports:
       - "22"
 
@@ -51,7 +60,16 @@ services:
       context: fedora
       args:
         version: "31"
-    image: playwithansible/fedora31:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/fedora31:${PWA_VERSION}
+    ports:
+      - "22"
+
+  fedora32:
+    build:
+      context: fedora
+      args:
+        version: "32"
+    image: ${REGISTRY}/playwithansible/fedora32:${PWA_VERSION}
     ports:
       - "22"
 
@@ -60,7 +78,7 @@ services:
       context: ubuntu
       args:
         version: "18.04"
-    image: playwithansible/ubuntu18.04:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/ubuntu1804:${PWA_VERSION}
     ports:
       - "22"
 
@@ -69,7 +87,7 @@ services:
       context: ubuntu
       args:
         version: "19.10"
-    image: playwithansible/ubuntu19.10:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/ubuntu1910:${PWA_VERSION}
     ports:
       - "22"
 
@@ -78,6 +96,6 @@ services:
       context: ubuntu
       args:
         version: "20.04"
-    image: playwithansible/ubuntu20.04:${PWA_VERSION}
+    image: ${REGISTRY}/playwithansible/ubuntu2004:${PWA_VERSION}
     ports:
         - "22"
