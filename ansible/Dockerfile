@@ -27,3 +27,4 @@ RUN chown -R ansible: /home/ansible
 USER ansible
 
 LABEL playwithansible.ansible.version=${ansible_version}
+LABEL org.opencontainers.image.source https://github.com/playwithansible/playwithansible
