@@ -23,6 +23,8 @@ COPY supervisord.conf /etc/supervisord.conf
 
 RUN rm -f /run/nologin
 
+USER ansible
+
 ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 
 LABEL playwithansible.distribution.name=centos \
