@@ -7,8 +7,6 @@ RUN apk add --no-cache \
     python3 py3-pip \
     gcc libffi-dev make musl-dev openssl-dev python3-dev
 
-RUN pip3 --no-cache-dir install ansible-lint
-
 RUN addgroup --system ansible && \
     adduser --system --disabled-password --shell /bin/bash --ingroup ansible ansible && \
     mkdir -p /home/ansible/.ssh && \
@@ -16,7 +14,9 @@ RUN addgroup --system ansible && \
     sed -i -E 's/%sudo\s+ALL=\(ALL:ALL\) ALL/%sudo ALL=\(ALL:ALL\) NOPASSWD:ALL/g' /etc/sudoers && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
-RUN pip3 --no-cache-dir install ansible==${ansible_version}
+RUN pip3 --no-cache-dir install \
+    ansible==${ansible_version} \
+    ansible-lint
 
 RUN apk add bash supervisor
 
