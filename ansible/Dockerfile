@@ -11,7 +11,9 @@ RUN addgroup --system ansible && \
     adduser --system --disabled-password --shell /bin/bash --ingroup ansible ansible && \
     mkdir -p /home/ansible/.ssh && \
     chown -R ansible: /home/ansible && \
-    sed -i -E 's/%sudo\s+ALL=\(ALL:ALL\) ALL/%sudo ALL=\(ALL:ALL\) NOPASSWD:ALL/g' /etc/sudoers && \
+    addgroup ansible wheel && \
+    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
+    #sed -i -E 's/%wheel\s+ALL=\(ALL:ALL\) ALL/%wheel ALL=\(ALL:ALL\) NOPASSWD:ALL/g' /etc/sudoers && \
     echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
 RUN pip3 --no-cache-dir install \
@@ -34,6 +36,9 @@ RUN chmod 600 /home/ansible/.ssh/id_rsa* && \
 
 RUN mkdir /var/log/supervisord /var/run/supervisord && \
     chown ansible: /var/log/supervisord /var/run/supervisord
+
+RUN mkdir -p /ansible/inventories/groupvars /ansible/inventories/hostvars && \
+    chown -R ansible: /ansible/inventories
 
 USER ansible
 
