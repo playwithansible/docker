@@ -14,10 +14,11 @@
       ansible_version: "{{ ansible_versions | last }}"
       theia_version: 1.5.0
 
+  vars_files:
+    - ansible_versions.yml
+    - distribution_versions.yml
+
   tasks:
-  
-    - include_vars: ansible_versions.yml
-    - include_vars: distribution_versions.yml
 
     - name: "Build Ansible images {{ ansible_versions | join(', ') }}"
       command: "docker build --build-arg ansible_version={{ version }} -t {{ img_ansible }} ansible"
@@ -25,11 +26,17 @@
         "{{ ansible_versions }}"
       loop_control:
         loop_var: version
+      tags:
+        - ansible
 
     - name: "Build OS images ({{ distribution_versions | length }} images)"
       command: "docker build --build-arg version={{ item.version }} -t {{ img_distribution }} {{ item.distribution }}"
       loop:
         "{{ distribution_versions }}"
+      tags:
+        - distributions
 
     - name: "Build Web IDE image ({{ img_webide }})"
       command: "docker build --build-arg ansible_version={{ webide.ansible_version }} --build-arg theia_version={{ webide.theia_version }} -t {{ img_webide }} webide"
+      tags:
+        - webide
