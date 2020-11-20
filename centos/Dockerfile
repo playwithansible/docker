@@ -21,11 +21,12 @@ RUN /usr/bin/ssh-keygen -A
 RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 COPY supervisord.conf /etc/supervisord.conf
 
+RUN mkdir /var/log/supervisord /var/run/supervisord && \
+    chown ansible: /var/log/supervisord /var/run/supervisord
+
 RUN rm -f /run/nologin
 
 ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
-
-USER ansible
 
 LABEL playwithansible.distribution.name=centos \
       playwithansible.distribution.version=${version}
