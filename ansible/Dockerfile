@@ -2,28 +2,47 @@ FROM alpine:3.10
 
 ARG ansible_version
 
-RUN apk update && \
-    apk add python py3-pip sudo
-
-RUN apk add gcc
-
-RUN apk add libffi-dev musl-dev openssl-dev python3-dev
-
-RUN pip3 install ansible==${ansible_version}
+RUN apk add --no-cache \
+    bash \
+    openssh-client sudo \
+    python3 py3-pip py3-psutil \
+    supervisor \
+    gcc libffi-dev libxslt-dev make musl-dev openssl-dev python3-dev
 
 RUN addgroup --system ansible && \
     adduser --system --disabled-password --shell /bin/bash --ingroup ansible ansible && \
     mkdir -p /home/ansible/.ssh && \
-    sed -i -E 's/%sudo\s+ALL=\(ALL:ALL\) ALL/%sudo ALL=\(ALL:ALL\) NOPASSWD:ALL/g' /etc/sudoers
+    chown -R ansible: /home/ansible && \
+    addgroup ansible wheel && \
+    echo '%wheel ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/wheel && \
+    #sed -i -E 's/%wheel\s+ALL=\(ALL:ALL\) ALL/%wheel ALL=\(ALL:ALL\) NOPASSWD:ALL/g' /etc/sudoers && \
+    echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
 
-RUN apk add openssh-client
+RUN pip3 install --upgrade pip && \
+    pip3 --no-cache-dir install \
+    ansible==${ansible_version} \
+    ansible-lint \
+    ansible-runner
 
-#COPY id_rsa* /home/ansible/.ssh/
+RUN mkdir /var/log/supervisord /var/run/supervisord && \
+    chown ansible: /var/log/supervisord /var/run/supervisord
+RUN mkdir -p /ansible/inventories/groupvars /ansible/inventories/hostvars /ansible/runner && \
+    chown -R ansible: /ansible/inventories /ansible/runner
+RUN rm -f /run/nologin
 
-RUN echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config
+COPY supervisord.conf /etc/supervisord.conf
 
-RUN chown -R ansible: /home/ansible
+COPY id_rsa* /home/ansible/.ssh/
+RUN chmod 600 /home/ansible/.ssh/id_rsa* && \
+    chown ansible: /home/ansible/.ssh/id_rsa*
+
+ADD requirements.txt /tmp/
+RUN pip3 --no-cache-dir install -r /tmp/requirements.txt
+
+ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 
 USER ansible
 
+# Docker Image Labels
 LABEL playwithansible.ansible.version=${ansible_version}
+LABEL org.opencontainers.image.source https://github.com/playwithansible/playwithansible

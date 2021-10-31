@@ -39,3 +39,4 @@ USER ansible
 LABEL playwithansible.ansible.version=${ansible_version} \
       playwithansible.theia.version=${theia_version} \
       playwithansible.vault.version=${theia_version}
+LABEL org.opencontainers.image.source https://github.com/playwithansible/playwithansible

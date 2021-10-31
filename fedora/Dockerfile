@@ -25,3 +25,4 @@ ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 
 LABEL playwithansible.distribution.name=fedora \
       playwithansible.distribution.version=${version}
+LABEL org.opencontainers.image.source=https://github.com/playwithansible/docker

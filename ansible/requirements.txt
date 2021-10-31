@@ -1,0 +1,4 @@
+hvac >= 0.9.6 # required for 'community.general.hashi_vault'
+lxml >= 2.3.0 # required for 'community.general.xml' ('libxslt-dev' required)
+
+# Requirements path:/lib/ansible/modules/
