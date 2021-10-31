@@ -29,4 +29,4 @@ ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 
 LABEL playwithansible.distribution.name=centos \
       playwithansible.distribution.version=${version}
-LABEL org.opencontainers.image.source https://github.com/playwithansible/playwithansible
+LABEL org.opencontainers.image.source=https://github.com/playwithansible/docker
