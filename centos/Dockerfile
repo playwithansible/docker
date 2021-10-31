@@ -21,9 +21,10 @@ RUN /usr/bin/ssh-keygen -A
 RUN mkdir /var/run/sshd && chmod 0755 /var/run/sshd
 COPY supervisord.conf /etc/supervisord.conf
 
-RUN rm -f /run/nologin
+RUN mkdir /var/log/supervisord /var/run/supervisord && \
+    chown ansible: /var/log/supervisord /var/run/supervisord
 
-USER ansible
+RUN rm -f /run/nologin
 
 ENTRYPOINT [ "/usr/bin/supervisord", "-c", "/etc/supervisord.conf" ]
 
